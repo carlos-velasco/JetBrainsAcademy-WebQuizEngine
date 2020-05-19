@@ -1,0 +1,33 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'java'
+    id "io.freefair.lombok" version "5.0.0"
+}
+
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.9'
+    testImplementation 'com.github.hyperskill:hs-test:e98372d2541e3fd893a04b11a1dddab0c34180f4'
+}
+
+wrapper {
+    gradleVersion = '5.6.2'
+}
+
+
