@@ -1,4 +1,4 @@
-package engine.hyperskill;
+package engine.jetbrainsacademy;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,8 +11,8 @@ import org.hyperskill.hstest.mocks.web.request.HttpRequest;
 import org.hyperskill.hstest.stage.SpringTest;
 import org.hyperskill.hstest.testcase.CheckResult;
 
-import static engine.hyperskill.TestHelper.*;
-import static engine.hyperskill.ApiTester.*;
+import static engine.jetbrainsacademy.TestHelper.*;
+import static engine.jetbrainsacademy.ApiTester.*;
 
 public class WebQuizEngineTest extends SpringTest {
     public WebQuizEngineTest() {

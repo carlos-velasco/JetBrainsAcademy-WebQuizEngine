@@ -1,4 +1,4 @@
-package engine.hyperskill;
+package engine.jetbrainsacademy;
 
 import com.google.gson.*;
 import org.apache.http.HttpHeaders;

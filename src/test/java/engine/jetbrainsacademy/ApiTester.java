@@ -1,4 +1,4 @@
-package engine.hyperskill;
+package engine.jetbrainsacademy;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
