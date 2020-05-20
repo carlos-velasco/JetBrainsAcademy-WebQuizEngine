@@ -4,15 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import engine.model.quiz.Quiz;
 import engine.model.quiz.QuizCompletion;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor  // Needed when using Lombok's builder, and Jackson serialization is done
 @ToString(exclude = {"quizzes", "quizCompletions"}) // Avoid recursion in toString() method with one-to-many entities
 @Entity
 @Table(name = "users")
