@@ -5,10 +5,13 @@ import engine.model.user.User;
 import engine.repository.QuizCompletionRepository;
 import engine.repository.QuizRepository;
 import engine.repository.UserRepository;
+import engine.security.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,6 +34,9 @@ public class DefaultQuizService implements QuizService {
 
     @Autowired
     private QuizCompletionRepository quizCompletionRepository;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Override
     public Quiz getQuiz(Long quizId) {
@@ -78,7 +84,7 @@ public class DefaultQuizService implements QuizService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new QuizNotFoundException(quizId));
 
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currentUserEmail = authenticationFacade.getAuthentication().getName();
         if (!currentUserEmail.equals(quiz.getUser().getEmail())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Logged in user is not the author of the quiz");
         }
@@ -86,7 +92,7 @@ public class DefaultQuizService implements QuizService {
     }
 
     private User getLoggedInUser() {
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currentUserEmail = authenticationFacade.getAuthentication().getName();
         return Optional.ofNullable(userRepository.findByEmail(currentUserEmail))
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
