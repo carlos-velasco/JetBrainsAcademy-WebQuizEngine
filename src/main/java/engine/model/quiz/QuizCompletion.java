@@ -27,7 +27,7 @@ public class QuizCompletion {
     @JsonIgnore
     private Quiz quiz;
 
-    @Column(name="QUIZ_ID", updatable = false, insertable = false)
+    @Column(name = "QUIZ_ID", updatable = false, insertable = false)
     @JsonProperty("id")
     private Long quiz_id;
 

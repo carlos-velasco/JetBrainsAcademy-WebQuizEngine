@@ -24,6 +24,7 @@ dependencies {
     testImplementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.9'
     testImplementation 'com.github.hyperskill:hs-test:e98372d2541e3fd893a04b11a1dddab0c34180f4'
+    testImplementation 'org.mockito:mockito-core:2.1.0'
 }
 
 wrapper {
