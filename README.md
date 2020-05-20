@@ -6,6 +6,6 @@ The tests in the package ``engine.jetbrainsacademy`` were implemented by [HyperS
 
 The author of this repo claims no ownership over the the tests in package ``engine.jetbrainsacademy``.
 
-Tests in the ``test`` module not belonging to the ``engine.jetbrainsacademy`` are authored and owned by the owner of this repository.
+Tests in the ``test`` module not in the ``engine.jetbrainsacademy`` package are authored and owned by the owner of this repository.
 
 
