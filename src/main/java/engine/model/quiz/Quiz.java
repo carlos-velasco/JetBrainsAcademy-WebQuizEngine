@@ -34,10 +34,12 @@ public class Quiz {
 
     @Size(min = 2, message = "must have size equal or greater than 2")
     @ElementCollection
+    @Builder.Default
     private List<String> options = List.of();
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ElementCollection
+    @Builder.Default
     private Set<Integer> answer = Set.of();
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
