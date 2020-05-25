@@ -1,4 +1,5 @@
-# JetBrains Academy - Web Quiz Engine
+![CI](https://github.com/carlos-velasco/JetBrainsAcademy-WebQuizEngine/workflows/CI/badge.svg)
+
 This repository contains my implementation of the [Web Quiz Engine](https://hyperskill.org/projects/91) project in [JetBrains Academy](https://www.jetbrains.com/academy/).
 
 ## Disclaimer
