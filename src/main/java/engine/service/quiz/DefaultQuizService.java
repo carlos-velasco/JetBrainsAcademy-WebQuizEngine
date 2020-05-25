@@ -60,7 +60,7 @@ public class DefaultQuizService implements QuizService {
     public QuizResult solveQuiz(Long quizId, QuizAnswer quizAnswer) {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new QuizNotFoundException(quizId));
-        boolean solvedSuccessfully = quiz.getAnswer().equals(quizAnswer.getAnswer());
+        boolean solvedSuccessfully = quiz.checkAnswer(quizAnswer);
 
         if (solvedSuccessfully) {
             QuizCompletion quizCompletion = QuizCompletion.builder()

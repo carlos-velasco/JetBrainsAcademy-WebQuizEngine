@@ -49,4 +49,10 @@ public class Quiz {
     @JsonIgnore
     @EqualsAndHashCode.Exclude  // Avoid recursion on cascade deletion
     private Set<QuizCompletion> quizCompletions;
+
+    public boolean checkAnswer(QuizAnswer answer) {
+        if (answer == null) return false;
+
+        return this.answer.equals(answer.getAnswer());
+    }
 }
