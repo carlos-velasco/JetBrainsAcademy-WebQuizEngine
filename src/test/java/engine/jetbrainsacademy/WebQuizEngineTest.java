@@ -16,7 +16,7 @@ import static engine.jetbrainsacademy.ApiTester.*;
 
 public class WebQuizEngineTest extends SpringTest {
     public WebQuizEngineTest() {
-        super(WebQuizEngine.class, 8889, "../quizdb.mv.db");
+        super(WebQuizEngine.class, 8889, "quizdb.mv.db");
     }
 
     private static String quiz1 =
