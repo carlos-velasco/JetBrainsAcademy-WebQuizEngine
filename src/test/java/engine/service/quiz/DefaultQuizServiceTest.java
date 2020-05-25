@@ -65,7 +65,7 @@ public class DefaultQuizServiceTest {
 
         // THEN
         assertThat(observedQuiz).isEqualTo(expectedQuiz.get());
-        verify(quizRepository, times(1)).findById(id);
+        verify(quizRepository).findById(id);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class DefaultQuizServiceTest {
         assertThat(thrown).isInstanceOf(QuizNotFoundException.class)
                 .hasMessageContaining("not found")
                 .hasMessageContaining("Quiz");
-        verify(quizRepository, times(1)).findById(id);
+        verify(quizRepository).findById(id);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class DefaultQuizServiceTest {
         target.deleteQuiz(id);
 
         // THEN
-        verify(quizRepository, times(1)).deleteById(id);
+        verify(quizRepository).deleteById(id);
     }
 
     @Test
@@ -130,7 +130,7 @@ public class DefaultQuizServiceTest {
                 .hasMessageContaining("Logged in user is not the author of the quiz");
         ResponseStatusException exception = (ResponseStatusException) thrown;
         assertThat(exception.getStatus()).isEqualByComparingTo(HttpStatus.FORBIDDEN);
-        verify(quizRepository, times(0)).deleteById(id);
+        verify(quizRepository, never()).deleteById(id);
     }
 
     @Test
@@ -148,7 +148,7 @@ public class DefaultQuizServiceTest {
         assertThat(thrown).isInstanceOf(QuizNotFoundException.class)
                 .hasMessageContaining("not found")
                 .hasMessageContaining("Quiz");
-        verify(quizRepository, times(0)).deleteById(id);
+        verify(quizRepository, never()).deleteById(id);
     }
 
     @Test
@@ -180,7 +180,7 @@ public class DefaultQuizServiceTest {
 
         // THEN
         assertThat(createdQuiz).isEqualTo(expectedQuiz);
-        verify(quizRepository, times(1)).save(createdQuiz);
+        verify(quizRepository).save(createdQuiz);
     }
 
     @Test
@@ -197,7 +197,7 @@ public class DefaultQuizServiceTest {
         assertThat(thrown).isInstanceOf(QuizNotFoundException.class)
                 .hasMessageContaining("not found")
                 .hasMessageContaining("Quiz");
-        verify(quizCompletionRepository, times(0)).save(any(QuizCompletion.class));
+        verify(quizCompletionRepository, never()).save(any(QuizCompletion.class));
     }
 
     @Test
@@ -232,7 +232,7 @@ public class DefaultQuizServiceTest {
 
         // THEN
         assertThat(quizResult).isEqualTo(QuizResultFactory.buildQuizResult(true));
-        verify(quizCompletionRepository, times(1))
+        verify(quizCompletionRepository)
                 .save(argThat(argument -> argument.getUser().equals(expectedQuizCompletion.getUser())
                         && argument.getQuiz().equals(expectedQuizCompletion.getQuiz())
                         && argument.getCompletedAt().isBefore(LocalDateTime.now())
@@ -270,7 +270,7 @@ public class DefaultQuizServiceTest {
         target.getQuizzes(pageNumber);
 
         // THEN
-        verify(quizRepository, times(1)).findAll(expectedPageRequest);
+        verify(quizRepository).findAll(expectedPageRequest);
     }
 
     @Test
@@ -288,6 +288,6 @@ public class DefaultQuizServiceTest {
         target.findQuizCompletionsByUser(pageNumber);
 
         // THEN
-        verify(quizCompletionRepository, times(1)).findAllByUser(user, expectedPageRequest);
+        verify(quizCompletionRepository).findAllByUser(user, expectedPageRequest);
     }
 }
