@@ -1,6 +1,6 @@
 package engine.security;
 
-import engine.service.user.DefaultUserDetailsService;
+import engine.service.user.QuizUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new DefaultUserDetailsService();
+        return new QuizUserDetailsService();
     }
 
     @Bean
