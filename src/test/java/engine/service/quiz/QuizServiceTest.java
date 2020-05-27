@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultQuizServiceTest {
+public class QuizServiceTest {
 
     @Mock
     private QuizRepository quizRepository;
@@ -44,7 +44,7 @@ public class DefaultQuizServiceTest {
     private AuthenticationFacade authenticationFacade;
 
     @InjectMocks
-    private QuizService target = new DefaultQuizService();
+    private QuizService target = new QuizService();
 
     @Test
     public void givenQuizExists_whenGettingQuizById_QuizIsReturned() {
@@ -264,7 +264,7 @@ public class DefaultQuizServiceTest {
 
         // GIVEN
         Long pageNumber = 1L;
-        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), DefaultQuizService.PAGE_SIZE, Sort.by("id"));
+        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), QuizService.PAGE_SIZE, Sort.by("id"));
 
         // WHEN
         target.getQuizzes(pageNumber);
@@ -278,7 +278,7 @@ public class DefaultQuizServiceTest {
 
         // GIVEN
         Long pageNumber = 1L;
-        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), DefaultQuizService.PAGE_SIZE, Sort.by("completedAt").descending());
+        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), QuizService.PAGE_SIZE, Sort.by("completedAt").descending());
         Authentication authentication = new TestingAuthenticationToken("user", "password");
         when(authenticationFacade.getAuthentication()).thenReturn(authentication);
         User user = User.builder().build();

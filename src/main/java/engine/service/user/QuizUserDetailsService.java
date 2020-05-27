@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 
-public class DefaultUserDetailsService implements UserDetailsService {
+public class QuizUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

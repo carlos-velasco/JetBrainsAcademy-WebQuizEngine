@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 @Service("userService")
 @Validated
-public class DefaultUserService implements UserService {
+public class QuizUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -19,7 +19,6 @@ public class DefaultUserService implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
     public User createUser(@Valid User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

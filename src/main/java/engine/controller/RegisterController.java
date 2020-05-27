@@ -1,7 +1,7 @@
 package engine.controller;
 
 import engine.model.user.User;
-import engine.service.user.UserService;
+import engine.service.user.QuizUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
 
     @Autowired
-    private UserService userService;
+    private QuizUserService userService;
 
     @PostMapping
     public User registerNewUser(@RequestBody User user) {
