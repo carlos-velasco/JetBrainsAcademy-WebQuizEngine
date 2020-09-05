@@ -1,6 +1,8 @@
 package engine.security;
 
+import engine.repository.UserRepository;
 import engine.service.user.QuizUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,13 +13,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserRepository userRepository;
 
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        return new QuizUserDetailsService();
+        return new QuizUserDetailsService(userRepository);
     }
 
     @Bean
