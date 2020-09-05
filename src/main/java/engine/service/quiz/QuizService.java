@@ -24,7 +24,7 @@ import java.util.Optional;
 @Validated
 public class QuizService {
 
-    static int PAGE_SIZE = 10;
+    static final int PAGE_SIZE = 10;
 
     @Autowired
     private QuizRepository quizRepository;
