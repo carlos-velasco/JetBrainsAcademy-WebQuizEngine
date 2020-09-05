@@ -29,7 +29,7 @@ public class QuizCompletion {
 
     @Column(name = "QUIZ_ID", updatable = false, insertable = false)
     @JsonProperty("id")
-    private Long quiz_id;
+    private Long quizId;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
