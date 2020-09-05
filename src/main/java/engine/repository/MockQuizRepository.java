@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class MockQuizRepository implements QuizRepository {
 
-    private volatile AtomicLong quizId = new AtomicLong(1);
+    private final AtomicLong quizId = new AtomicLong(1);
     private final List<Quiz> quizzes = new ArrayList<>();
 
     @Override
