@@ -1,6 +1,6 @@
-package engine.model.mapper;
+package engine.mapper;
 
-import engine.model.dto.QuizDto;
+import engine.dto.QuizDto;
 import engine.model.quiz.Quiz;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

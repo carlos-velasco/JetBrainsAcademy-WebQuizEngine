@@ -1,7 +1,7 @@
 package engine.controller;
 
-import engine.model.dto.QuizDto;
-import engine.model.mapper.QuizMapper;
+import engine.dto.QuizDto;
+import engine.mapper.QuizMapper;
 import engine.model.quiz.Quiz;
 import engine.model.quiz.QuizAnswer;
 import engine.model.quiz.QuizCompletion;

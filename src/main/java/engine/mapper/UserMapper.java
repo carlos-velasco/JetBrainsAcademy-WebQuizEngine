@@ -1,6 +1,6 @@
-package engine.model.mapper;
+package engine.mapper;
 
-import engine.model.dto.UserDto;
+import engine.dto.UserDto;
 import engine.model.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

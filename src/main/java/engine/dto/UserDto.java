@@ -1,4 +1,4 @@
-package engine.model.dto;
+package engine.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

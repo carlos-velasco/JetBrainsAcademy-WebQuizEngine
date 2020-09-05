@@ -1,7 +1,7 @@
 package engine.controller;
 
-import engine.model.dto.UserDto;
-import engine.model.mapper.UserMapper;
+import engine.dto.UserDto;
+import engine.mapper.UserMapper;
 import engine.model.user.User;
 import engine.service.user.QuizUserService;
 import lombok.RequiredArgsConstructor;
