@@ -1,6 +1,8 @@
 package engine.controller;
 
+import engine.dto.QuizCompletionDto;
 import engine.dto.QuizDto;
+import engine.mapper.QuizCompletionMapper;
 import engine.mapper.QuizMapper;
 import engine.model.quiz.Quiz;
 import engine.model.quiz.QuizAnswer;
@@ -21,6 +23,7 @@ public class QuizController {
 
     private final QuizService quizService;
     private final QuizMapper quizMapper;
+    private final QuizCompletionMapper quizCompletionMapper;
 
     @GetMapping("{id}")
     public QuizDto findById(@PathVariable("id") Long quizId) {
@@ -35,8 +38,9 @@ public class QuizController {
     }
 
     @GetMapping("completed")
-    public Page<QuizCompletion> findAllCompletedByUser(@RequestParam(defaultValue = "0", name = "page") Long pageNumber) {
-        return quizService.findQuizCompletionsByUser(pageNumber);
+    public Page<QuizCompletionDto> findAllCompletedByUser(@RequestParam(defaultValue = "0", name = "page") Long pageNumber) {
+        Page<QuizCompletion> quizCompletionsByUser = quizService.findQuizCompletionsByUser(pageNumber);
+        return quizCompletionsByUser.map(quizCompletionMapper::toQuizCompletionMapperDto);
     }
 
     @PostMapping("{id}/solve")
