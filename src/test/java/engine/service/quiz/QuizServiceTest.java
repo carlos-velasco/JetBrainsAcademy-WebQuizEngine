@@ -44,7 +44,7 @@ public class QuizServiceTest {
     private AuthenticationFacade authenticationFacade;
 
     @InjectMocks
-    private QuizService target = new QuizService();
+    private QuizService target;
 
     @Test
     public void givenQuizExists_whenGettingQuizById_QuizIsReturned() {

@@ -6,7 +6,7 @@ import engine.repository.QuizCompletionRepository;
 import engine.repository.QuizRepository;
 import engine.repository.UserRepository;
 import engine.security.AuthenticationFacade;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,22 +21,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service("quizService")
+@RequiredArgsConstructor
 @Validated
 public class QuizService {
 
     static final int PAGE_SIZE = 10;
 
-    @Autowired
-    private QuizRepository quizRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private QuizCompletionRepository quizCompletionRepository;
-
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
+    private final QuizRepository quizRepository;
+    private final UserRepository userRepository;
+    private final QuizCompletionRepository quizCompletionRepository;
+    private final AuthenticationFacade authenticationFacade;
 
     public Quiz getQuiz(Long quizId) {
         return quizRepository.findById(quizId)
