@@ -1,30 +1,37 @@
 package engine.controller;
 
+import engine.model.dto.QuizDto;
+import engine.model.mapper.QuizMapper;
 import engine.model.quiz.Quiz;
 import engine.model.quiz.QuizAnswer;
 import engine.model.quiz.QuizCompletion;
 import engine.model.quiz.QuizResult;
 import engine.service.quiz.QuizService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/quizzes")
 public class QuizController {
 
-    @Autowired
-    private QuizService quizService;
+    private final QuizService quizService;
+    private final QuizMapper quizMapper;
 
     @GetMapping("{id}")
-    public Quiz findById(@PathVariable("id") Long quizId) {
-        return quizService.getQuiz(quizId);
+    public QuizDto findById(@PathVariable("id") Long quizId) {
+        Quiz quiz = quizService.getQuiz(quizId);
+        return quizMapper.toQuizDto(quiz);
     }
 
     @GetMapping
-    public Page<Quiz> findAll(@RequestParam(defaultValue = "0", name = "page") Long pageNumber) {
-        return quizService.getQuizzes(pageNumber);
+    public Page<QuizDto> findAll(@RequestParam(defaultValue = "0", name = "page") Long pageNumber) {
+        Page<Quiz> quizzes = quizService.getQuizzes(pageNumber);
+        return quizzes.map(quizMapper::toQuizDto);
     }
 
     @GetMapping("completed")
@@ -38,8 +45,9 @@ public class QuizController {
     }
 
     @PostMapping
-    public Quiz create(@RequestBody Quiz quiz) {
-        return quizService.createQuiz(quiz);
+    public QuizDto create(@RequestBody @Valid QuizDto quizDto) {
+        Quiz quiz = quizService.createQuiz(quizMapper.toQuiz(quizDto));
+        return quizMapper.toQuizDto(quiz);
     }
 
     @DeleteMapping("{id}")

@@ -2,7 +2,7 @@ package engine.service.user;
 
 import engine.model.user.User;
 import engine.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -10,14 +10,12 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 
 @Service("userService")
+@RequiredArgsConstructor
 @Validated
 public class QuizUserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     public User createUser(@Valid User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
