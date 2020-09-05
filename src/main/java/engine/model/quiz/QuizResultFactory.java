@@ -1,8 +1,11 @@
 package engine.model.quiz;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class QuizResultFactory {
 
-    public static QuizResult buildQuizResult(boolean isSuccess) {
+    public QuizResult buildQuizResult(boolean isSuccess) {
         QuizResult.QuizResultBuilder builder = QuizResult.builder()
                 .isSuccess(isSuccess);
 
