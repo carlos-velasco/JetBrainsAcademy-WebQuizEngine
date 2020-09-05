@@ -10,6 +10,6 @@ public class ShutdownController {
 
     @PostMapping
     public void shutdown() {
-
+        // Do nothing, it is only needed for the tests
     }
 }
