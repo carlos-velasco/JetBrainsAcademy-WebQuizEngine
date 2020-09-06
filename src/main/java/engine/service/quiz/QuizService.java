@@ -6,19 +6,17 @@ import engine.repository.QuizCompletionRepository;
 import engine.repository.QuizRepository;
 import engine.repository.UserRepository;
 import engine.security.AuthenticationFacade;
+import engine.service.user.QuizUserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service("quizService")
 @RequiredArgsConstructor
@@ -74,16 +72,17 @@ public class QuizService {
 
         String currentUserEmail = authenticationFacade.getAuthentication().getName();
         if (!currentUserEmail.equals(quiz.getUser().getEmail())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Logged in user is not the author of the quiz");
+            throw new QuizNotOwnedByUserException(quizId, currentUserEmail);
         }
         quizRepository.deleteById(quizId);
     }
 
     private User getLoggedInUser() {
         String currentUserEmail = authenticationFacade.getAuthentication().getName();
-        return Optional.ofNullable(userRepository.findByEmail(currentUserEmail))
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Logged in user not found in data store"));
+        User user = userRepository.findByEmail(currentUserEmail);
+        if (user == null) {
+            throw  new QuizUserNotFoundException(currentUserEmail);
+        }
+        return user;
     }
 }

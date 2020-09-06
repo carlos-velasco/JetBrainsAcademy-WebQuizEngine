@@ -13,10 +13,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -126,10 +124,8 @@ public class QuizServiceTest {
         Throwable thrown = catchThrowable(() -> target.deleteQuiz(id));
 
         // THEN
-        assertThat(thrown).isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Logged in user is not the author of the quiz");
-        ResponseStatusException exception = (ResponseStatusException) thrown;
-        assertThat(exception.getStatus()).isEqualByComparingTo(HttpStatus.FORBIDDEN);
+        assertThat(thrown).isInstanceOf(QuizNotOwnedByUserException.class)
+                .hasMessage(String.format("User %s is not the owner of quiz %d", "otherEmail", id));
         verify(quizRepository, never()).deleteById(id);
     }
 
@@ -195,8 +191,7 @@ public class QuizServiceTest {
 
         // THEN
         assertThat(thrown).isInstanceOf(QuizNotFoundException.class)
-                .hasMessageContaining("not found")
-                .hasMessageContaining("Quiz");
+                .hasMessage(String.format("Quiz with id %d not found", id));
         verify(quizCompletionRepository, never()).save(any(QuizCompletion.class));
     }
 

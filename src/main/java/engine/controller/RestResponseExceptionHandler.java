@@ -1,6 +1,8 @@
 package engine.controller;
 
 import engine.service.quiz.QuizNotFoundException;
+import engine.service.quiz.QuizNotOwnedByUserException;
+import engine.service.user.QuizUserNotFoundException;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,11 +19,27 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String MESSAGE_KEY = "message";
+
     @ExceptionHandler(QuizNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     protected Map<String, String> handleEntityNotFound(QuizNotFoundException ex) {
-        return Map.of("message", ex.getMessage());
+        return Map.of(MESSAGE_KEY, ex.getMessage());
+    }
+
+    @ExceptionHandler(QuizUserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    protected Map<String, String> handleEntityNotFound(QuizUserNotFoundException ex) {
+        return Map.of(MESSAGE_KEY, ex.getMessage());
+    }
+
+    @ExceptionHandler(QuizNotOwnedByUserException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    protected Map<String, String> handleNoPermissionsForQuiz(QuizNotOwnedByUserException ex) {
+        return Map.of(MESSAGE_KEY, ex.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
