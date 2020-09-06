@@ -30,7 +30,7 @@ dependencies {
 }
 
 wrapper {
-    gradleVersion = '6.0'
+    gradleVersion = '6.3'
 }
 
 
