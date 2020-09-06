@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -72,7 +73,7 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new QuizNotFoundException(quizId));
 
-        String currentUserEmail = authenticationFacade.getAuthentication().getName();
+        String currentUserEmail = getAuthenticatedUser().getName();
         if (!currentUserEmail.equals(quiz.getUser().getEmail())) {
             throw new QuizNotOwnedByUserException(quizId, currentUserEmail);
         }
@@ -80,11 +81,12 @@ public class QuizService {
     }
 
     private User getLoggedInUser() {
-        String currentUserEmail = authenticationFacade.getAuthentication().getName();
-        User user = userRepository.findByEmail(currentUserEmail);
-        if (user == null) {
-            throw  new QuizUserNotFoundException(currentUserEmail);
-        }
-        return user;
+        String currentUserEmail = getAuthenticatedUser().getName();
+        return userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new QuizUserNotFoundException(currentUserEmail));
+    }
+
+    private Authentication getAuthenticatedUser() {
+        return authenticationFacade.getAuthentication();
     }
 }

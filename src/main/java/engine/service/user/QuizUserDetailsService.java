@@ -15,10 +15,8 @@ public class QuizUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new QuizUserNotFoundException(username);
-        }
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new QuizUserNotFoundException(username));
         return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
                 .password(user.getPassword())
                 .authorities(Collections.emptyList())

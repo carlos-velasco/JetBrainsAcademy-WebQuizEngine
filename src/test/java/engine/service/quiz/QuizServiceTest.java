@@ -170,7 +170,7 @@ public class QuizServiceTest {
 
         Authentication authentication = new TestingAuthenticationToken(user.getEmail(), user.getPassword());
         when(authenticationFacade.getAuthentication()).thenReturn(authentication);
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(quizRepository.save(quiz)).thenReturn(expectedQuiz);
 
         // WHEN
@@ -214,7 +214,7 @@ public class QuizServiceTest {
         when(quizRepository.findById(id)).thenReturn(expectedQuiz);
         Authentication authentication = new TestingAuthenticationToken(user.getEmail(), user.getPassword());
         when(authenticationFacade.getAuthentication()).thenReturn(authentication);
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 
         QuizCompletion expectedQuizCompletion = QuizCompletion.builder()
                 .quiz(expectedQuiz.get())
@@ -279,7 +279,7 @@ public class QuizServiceTest {
         Authentication authentication = new TestingAuthenticationToken("user", "password");
         when(authenticationFacade.getAuthentication()).thenReturn(authentication);
         User user = User.builder().build();
-        when(userRepository.findByEmail(anyString())).thenReturn(user);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
         // WHEN
         target.findQuizCompletionsByUser(pageNumber);
