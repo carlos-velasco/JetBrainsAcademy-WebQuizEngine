@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Validated
 public class QuizService {
 
-    @Value("${page-size:10}")
+    @Value("${page-size}")
     private int pageSize = 10;
 
     private final QuizRepository quizRepository;
@@ -45,18 +45,17 @@ public class QuizService {
 
     public Page<QuizCompletion> findQuizCompletionsByUser(Long pageNumber) {
         Pageable paging = PageRequest.of(pageNumber.intValue(), pageSize, Sort.by("completedAt").descending());
-        return quizCompletionRepository.findAllByUser(getLoggedInUser(), paging);
+        return quizCompletionRepository.findAllByUser(findCurrentlyLoggedInUser(), paging);
     }
 
     public QuizResult solveQuiz(Long quizId, QuizAnswer quizAnswer) {
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new QuizNotFoundException(quizId));
+        Quiz quiz = getQuiz(quizId);
         boolean solvedSuccessfully = quiz.checkAnswer(quizAnswer);
 
         if (solvedSuccessfully) {
             QuizCompletion quizCompletion = QuizCompletion.builder()
                     .quiz(quiz)
-                    .user(getLoggedInUser())
+                    .user(findCurrentlyLoggedInUser())
                     .completedAt(LocalDateTime.now())
                     .build();
             quizCompletionRepository.save(quizCompletion);
@@ -65,28 +64,28 @@ public class QuizService {
     }
 
     public Quiz createQuiz(@Valid Quiz quiz) {
-        quiz.setUser(getLoggedInUser());
+        quiz.setUser(findCurrentlyLoggedInUser());
         return quizRepository.save(quiz);
     }
 
     public void deleteQuiz(Long quizId) {
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new QuizNotFoundException(quizId));
+        Quiz quiz = getQuiz(quizId);
+        String loggedInUserEmail = getLoggedInUserEmail();
 
-        String currentUserEmail = getAuthenticatedUser().getName();
-        if (!currentUserEmail.equals(quiz.getUser().getEmail())) {
-            throw new QuizNotOwnedByUserException(quizId, currentUserEmail);
+        if (!loggedInUserEmail.equals(quiz.getUser().getEmail())) {
+            throw new QuizNotOwnedByUserException(quizId, loggedInUserEmail);
         }
         quizRepository.deleteById(quizId);
     }
 
-    private User getLoggedInUser() {
-        String currentUserEmail = getAuthenticatedUser().getName();
-        return userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new QuizUserNotFoundException(currentUserEmail));
+    private String getLoggedInUserEmail() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return authentication.getName();
     }
 
-    private Authentication getAuthenticatedUser() {
-        return authenticationFacade.getAuthentication();
+    private User findCurrentlyLoggedInUser() {
+        String loggedInUserEmail = getLoggedInUserEmail();
+        return userRepository.findByEmail(loggedInUserEmail)
+                .orElseThrow(() -> new QuizUserNotFoundException(loggedInUserEmail));
     }
 }
