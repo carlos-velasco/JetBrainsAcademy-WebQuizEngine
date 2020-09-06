@@ -29,6 +29,8 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class QuizServiceTest {
 
+    private static final int PAGE_SIZE = 10;
+
     @Mock
     private QuizRepository quizRepository;
 
@@ -259,7 +261,7 @@ public class QuizServiceTest {
 
         // GIVEN
         Long pageNumber = 1L;
-        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), QuizService.PAGE_SIZE, Sort.by("id"));
+        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), PAGE_SIZE, Sort.by("id"));
 
         // WHEN
         target.getQuizzes(pageNumber);
@@ -273,7 +275,7 @@ public class QuizServiceTest {
 
         // GIVEN
         Long pageNumber = 1L;
-        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), QuizService.PAGE_SIZE, Sort.by("completedAt").descending());
+        PageRequest expectedPageRequest = PageRequest.of(pageNumber.intValue(), PAGE_SIZE, Sort.by("completedAt").descending());
         Authentication authentication = new TestingAuthenticationToken("user", "password");
         when(authenticationFacade.getAuthentication()).thenReturn(authentication);
         User user = User.builder().build();

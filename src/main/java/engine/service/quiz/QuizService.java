@@ -8,6 +8,7 @@ import engine.repository.UserRepository;
 import engine.security.AuthenticationFacade;
 import engine.service.user.QuizUserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,8 @@ import java.time.LocalDateTime;
 @Validated
 public class QuizService {
 
-    static final int PAGE_SIZE = 10;
+    @Value("${page-size:10}")
+    private int pageSize = 10;
 
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
@@ -36,12 +38,12 @@ public class QuizService {
     }
 
     public Page<Quiz> getQuizzes(Long pageNumber) {
-        Pageable paging = PageRequest.of(pageNumber.intValue(), PAGE_SIZE, Sort.by("id"));
+        Pageable paging = PageRequest.of(pageNumber.intValue(), pageSize, Sort.by("id"));
         return quizRepository.findAll(paging);
     }
 
     public Page<QuizCompletion> findQuizCompletionsByUser(Long pageNumber) {
-        Pageable paging = PageRequest.of(pageNumber.intValue(), PAGE_SIZE, Sort.by("completedAt").descending());
+        Pageable paging = PageRequest.of(pageNumber.intValue(), pageSize, Sort.by("completedAt").descending());
         return quizCompletionRepository.findAllByUser(getLoggedInUser(), paging);
     }
 
