@@ -14,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/quizzes")
@@ -49,7 +47,7 @@ public class QuizController {
     }
 
     @PostMapping
-    public QuizDto create(@RequestBody @Valid QuizDto quizDto) {
+    public QuizDto create(@RequestBody QuizDto quizDto) {
         Quiz quiz = quizService.createQuiz(quizMapper.toQuiz(quizDto));
         return quizMapper.toQuizDto(quiz);
     }
